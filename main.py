@@ -1,3 +1,4 @@
+import os
 from datetime import date
 from dateutil.relativedelta import relativedelta
 import pandas as pd
@@ -12,6 +13,11 @@ templateEnv = jinja2.Environment(loader=templateLoader)
 
 def main(args):
     generate_chase_stmt(args.chase_stmt_path, args.chase_stmt_out)
+
+
+def create_out_dir():
+    if not os.path.exists('./out'):
+        os.makedirs('./out')
 
 
 def generate_chase_stmt(path, output):
@@ -41,6 +47,14 @@ def generate_chase_stmt(path, output):
 
     # Get last 12 months only
     monthly = df_year.groupby(pd.Grouper(freq='M')).sum()
+
+    create_out_dir()
+
+    plot = monthly.plot()
+    fig = plot.get_figure()
+    fig.tight_layout()
+    fig.savefig('./out/chase_monthly.png')
+
     monthly_list = [
         {
             'date': val.name.strftime('%B %Y'),
@@ -55,6 +69,7 @@ def generate_chase_stmt(path, output):
         'monthly_data': monthly_list,
         'average_burn': avg_burn,
     })
+
     if not output:
         path = './out/chase_stmt.html'
         print(f'Writing statement to {path}')

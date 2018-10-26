@@ -11,6 +11,8 @@ Prints results to *beautiful* html file.
 ## TODO
 
 1. Other accounts, credit cards etc.
+1. Make generic data model for calculations (for above)
+1. Visualizations (charts, doo-dads)
 1. Overall summary of combined accounts
 
 ## Install
@@ -18,6 +20,7 @@ Prints results to *beautiful* html file.
 1. Create virtual env
 1. Activate the virtualenv
 1. pip install -r requirements.txt
+1. Install platform's matplotlib [backend](https://matplotlib.org/api/index_backend_api.html)
 
 ## Run
 
