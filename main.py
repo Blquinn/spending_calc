@@ -31,7 +31,11 @@ def generate_chase_stmt(path, output):
     df['Posting Date'] = pd.to_datetime(df['Posting Date'])
     df.set_index(df['Posting Date'], inplace=True)
 
-    df_creds = df.loc[df['Amount'] < 0]
+    df['Amount'] = -df['Amount']
+
+    df_creds = df.loc[df['Amount'] > 0]
+
+    # Negate values
 
     # TODO: remove the first month if account was opened midway through month.
     # This would throw off the average burn, if there was a partial month.
@@ -58,12 +62,12 @@ def generate_chase_stmt(path, output):
     monthly_list = [
         {
             'date': val.name.strftime('%B %Y'),
-            'spend': -round(val.Amount, 2),
+            'spend': round(val.Amount, 2),
         }
         for idx, val in monthly.iterrows()
     ]
 
-    avg_burn = -round(monthly.mean().iloc[0], 2)
+    avg_burn = round(monthly.mean().iloc[0], 2)
     template = templateEnv.get_template('chase_stmt.html.j2')
     output_html = template.render({
         'monthly_data': monthly_list,
