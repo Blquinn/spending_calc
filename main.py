@@ -27,12 +27,16 @@ def generate_chase_stmt(path, output):
 
     df_creds = df.loc[df['Amount'] < 0]
 
+    # TODO: remove the first month if account was opened midway through month.
+    # This would throw off the average burn, if there was a partial month.
+
     # Beggining of month, 1 year ago
     beginning_of_month = date.today().replace(day=1)
+    end_of_prev = beginning_of_month - relativedelta(days=1)
     n_months_ago = (beginning_of_month - relativedelta(years=1))
     df_year = df_creds[
         (df_creds.index > n_months_ago.isoformat()) &
-        (df_creds.index <= beginning_of_month.isoformat())
+        (df_creds.index <= end_of_prev.isoformat())
         ]
 
     # Get last 12 months only
