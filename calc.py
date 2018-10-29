@@ -17,7 +17,7 @@ def main(args) -> None:
         df = gen_fake_dataframe()
         generate_chase_stmt(df, args.chase_stmt_out)
     elif args.chase_stmt_path:
-        df = get_dataframe(args)
+        df = get_dataframe(args.chase_stmt_path)
         generate_chase_stmt(df, args.chase_stmt_out)
     else:
         print('Missing chase stmt path')
