@@ -24,4 +24,8 @@ Prints results to *beautiful* html file.
 
 ## Run
 
-python main.py __*args__
+python calc.py __*args__
+
+### Run with fake data
+
+python calc.py --mock t
